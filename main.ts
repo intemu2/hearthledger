@@ -15,6 +15,7 @@
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
 import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-frontend.ts';
@@ -34,3 +35,10 @@ writeFileSync(
   join(out, 'dossier.json'),
   buildDossier(out, { text_max_bytes: 163840, screenshots: { max: 4, max_bytes: 262144 }, app_max_files: 993, app_max_bytes: 16777216 }),
 );
+
+// HearthLedger note, written for this entry (not part of the kit starter): read the dossier back and print a one-line
+// build summary, so a local run shows the same first-load size the judge will see. This only reads the file the
+// library just wrote; it never changes dossier.json, and it runs after every copy above has finished.
+const dossierText = JSON.parse(readFileSync(join(out, 'dossier.json'), 'utf8')).text;
+const totalsLine = /Totals:.*/.exec(dossierText)?.[0] ?? 'Totals line not found';
+console.log(`HearthLedger packaged: ${totalsLine}`);
