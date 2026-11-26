@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HearthLedger — Household Budget &amp; Cash Flow</title>
+<meta name="description" content="HearthLedger is the Hartley family's zero-based household budget: envelopes, a shared ledger, bills and savings goals, all offline.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231e4d3b'/%3E%3Cpath d='M16 6 26 13v13h-6v-8h-8v8H6V13Z' fill='%23f4ead9'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M16 3 29 13v16H19v-9h-6v9H3V13Z" fill="#f4ead9"/><path d="M16 7.5 25 14v11h-3v-9a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v9H7V14Z" fill="#c96f4a"/></svg></span>
+      <span class="brand-text"><strong>HearthLedger</strong><small>The Hartley household</small></span>
+    </div>
+    <nav class="nav" id="mainNav">
+      <a href="#/overview" data-route="overview"><span class="ic" aria-hidden="true">▦</span> Overview</a>
+      <a href="#/budget" data-route="budget"><span class="ic" aria-hidden="true">◫</span> Budget Envelopes</a>
+      <a href="#/transactions" data-route="transactions"><span class="ic" aria-hidden="true">☰</span> Transactions</a>
+      <a href="#/bills" data-route="bills"><span class="ic" aria-hidden="true">▤</span> Bills &amp; Due Dates</a>
+      <a href="#/goals" data-route="goals"><span class="ic" aria-hidden="true">◎</span> Savings Goals</a>
+    </nav>
+    <div class="side-card" id="sideSafe"></div>
+    <div class="side-card side-family">
+      <strong>Household · Nov 2026</strong>
+      <p>Maya &amp; Jordan Hartley<br>Leo, 6 · Nora, 4<br>Two incomes, one plan.</p>
+      <button class="btn btn-ghost" type="button" id="sideReset">Reset demo data</button>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-btn" type="button" id="menuBtn" aria-label="Open navigation">☰</button>
+      <div class="topbar-title">
+        <h1 id="pageTitle">Overview</h1>
+        <p id="pageSub">November 2026 · All figures in US dollars</p>
+      </div>
+      <div class="topbar-actions">
+        <span class="month-pill">◷ Nov 2026</span>
+        <button class="btn btn-primary" type="button" id="quickAddBtn">+ Quick Add</button>
+      </div>
+    </header>
+
+    <main id="view" class="view" aria-live="polite"></main>
+
+    <footer class="foot">
+      <span>HearthLedger keeps every dollar assigned before the month begins. Data lives only in this browser.</span>
+      <span id="footStats"></span>
+    </footer>
+  </div>
+</div>
+
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a href="#/overview" data-route="overview">▦<small>Overview</small></a>
+  <a href="#/budget" data-route="budget">◫<small>Budget</small></a>
+  <a href="#/transactions" data-route="transactions">☰<small>Ledger</small></a>
+  <a href="#/bills" data-route="bills">▤<small>Bills</small></a>
+  <a href="#/goals" data-route="goals">◎<small>Goals</small></a>
+</nav>
+
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<section class="drawer" id="quickDrawer" aria-label="Quick add expense" hidden>
+  <div class="drawer-head">
+    <div><strong>Quick add expense</strong><p>It lands in the ledger and updates every total at once.</p></div>
+    <button class="btn btn-ghost" type="button" id="drawerClose" aria-label="Close">✕</button>
+  </div>
+  <form id="quickForm" class="form-grid">
+    <label>Description<input name="description" required maxlength="80" placeholder="e.g. GreenMart weekly shop"></label>
+    <label>Amount (USD)<input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00"></label>
+    <label>Category<select name="category" id="quickCategory"></select></label>
+    <label>Paid by<select name="member"><option>Maya</option><option>Jordan</option><option>Shared</option><option>Leo</option><option>Nora</option></select></label>
+    <label>Date<input name="date" type="date" value="2026-11-26" required></label>
+    <label>Method<select name="method"><option>Debit card</option><option>Credit card</option><option>Bank transfer</option><option>Cash</option><option>Auto-pay</option></select></label>
+    <button class="btn btn-primary" type="submit">Add to ledger</button>
+  </form>
+</section>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+</body>
+</html>
